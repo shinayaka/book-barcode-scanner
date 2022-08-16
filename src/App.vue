@@ -41,8 +41,9 @@
         </button>
       </template>
     </div>
-    <div>
-      <div id="barcode-scanner" v-show="started" />
+    <div v-show="started">
+      <div>以下の枠内にバーコードを写してください。</div>
+      <div id="barcode-scanner" />
     </div>
   </div>
 </template>
@@ -66,8 +67,8 @@ const startCamera = () => {
         name: "Live",
         type: "LiveStream",
         constraints: {
-          width: 640,
-          height: 140,
+          width: 320,
+          height: 70,
         },
         target: document.querySelector("#barcode-scanner"),
       },
