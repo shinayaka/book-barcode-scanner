@@ -52,6 +52,7 @@
 import Quagga from "@ericblade/quagga2";
 import axios from "axios";
 import { ref } from "vue";
+import { isIsbn } from "./utils/isbn";
 
 const code = ref<string>("");
 const title = ref<string>("");
@@ -88,10 +89,12 @@ const startCamera = () => {
       }
       Quagga.start();
       Quagga.onDetected(async (data) => {
-        code.value = data.codeResult.code;
-        Quagga.stop();
-        started.value = false;
-        title.value = await fetchBook(code.value);
+        if (isIsbn(data.codeResult.code)) {
+          code.value = data.codeResult.code;
+          Quagga.stop();
+          started.value = false;
+          title.value = await fetchBook(code.value);
+        }
       });
     }
   );
