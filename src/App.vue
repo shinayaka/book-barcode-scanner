@@ -73,7 +73,7 @@ const startCamera = () => {
           facingMode: "environment",
         },
         target: document.querySelector(".barcode-scanner"),
-        area: { top: "30%", right: "10%", left: "10%", bottom: "30%" },
+        area: { top: "10%", right: "10%", left: "10%", bottom: "10%" },
         numOfWorkers: navigator.hardwareConcurrency || 4,
       },
       decoder: {
@@ -151,7 +151,7 @@ const fetchBook = async (isbn: string) => {
 .barcode-scanner {
   margin: auto;
   overflow: hidden;
-  height: 200px;
+  height: 100px;
   width: 100%;
   /* relativeに設定 */
   position: relative;
@@ -159,17 +159,17 @@ const fetchBook = async (isbn: string) => {
   video,
   canvas {
     width: 100%;
-    height: 200px;
+    height: 100%;
   }
 
   .detect-area {
     position: absolute;
-    top: 30%;
-    bottom: 30%;
+    top: 10%;
+    bottom: 10%;
     left: 10%;
     right: 10%;
 
-    border: 2px solid #0000ff;
+    border: 3px solid #ff0000;
   }
 }
 </style>
