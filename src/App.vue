@@ -91,12 +91,16 @@ const startCamera = () => {
         return;
       }
       Quagga.start();
+      let previous = "";
       Quagga.onDetected(async (data) => {
-        if (isIsbn(data.codeResult.code)) {
-          code.value = data.codeResult.code;
+        const current = data.codeResult.code || "";
+        if (isIsbn(current) && current === previous) {
           Quagga.stop();
+          code.value = current;
           started.value = false;
-          title.value = await fetchBook(code.value);
+          title.value = await fetchBook(current);
+        } else {
+          previous = data.codeResult.code || "";
         }
       });
     }
