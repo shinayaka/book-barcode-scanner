@@ -8,6 +8,12 @@
         カメラを起動
       </button>
     </div>
+    <div v-show="started">
+      <div>以下の枠内にバーコードを写してください。</div>
+      <div class="barcode-scanner">
+        <div class="detect-area" />
+      </div>
+    </div>
 
     <div>
       <template v-if="code">
@@ -41,10 +47,6 @@
         </button>
       </template>
     </div>
-    <div v-show="started">
-      <div>以下の枠内にバーコードを写してください。</div>
-      <div id="barcode-scanner" />
-    </div>
   </div>
 </template>
 
@@ -68,10 +70,11 @@ const startCamera = () => {
         name: "Live",
         type: "LiveStream",
         constraints: {
-          width: 320,
-          height: 70,
+          facingMode: "environment",
         },
-        target: document.querySelector("#barcode-scanner"),
+        target: document.querySelector(".barcode-scanner"),
+        area: { top: "30%", right: "10%", left: "10%", bottom: "30%" },
+        numOfWorkers: navigator.hardwareConcurrency || 4,
       },
       decoder: {
         readers: ["ean_reader"],
@@ -140,3 +143,29 @@ const fetchBook = async (isbn: string) => {
   }
 };
 </script>
+<style scoped lang="scss">
+.barcode-scanner {
+  margin: auto;
+  overflow: hidden;
+  height: 200px;
+  width: 100%;
+  /* relativeに設定 */
+  position: relative;
+
+  video,
+  canvas {
+    width: 100%;
+    height: 200px;
+  }
+
+  .detect-area {
+    position: absolute;
+    top: 30%;
+    bottom: 30%;
+    left: 10%;
+    right: 10%;
+
+    border: 2px solid #0000ff;
+  }
+}
+</style>
